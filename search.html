@@ -2,8 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Search Results</title>
+  <title>Search Shufukai Kendo Boston - Find Martial Arts Classes & Information</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta name="description" content="Search for information about Kendo classes, martial arts training, and Japanese sword fighting at Shufukai Kendo Boston. Find class schedules, instructor information, and more.">
+  <meta name="keywords" content="boston martial arts search, kendo classes boston, martial arts training search, find kendo dojo, boston martial arts classes">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shufukai.github.io/search.html">
+  <meta property="og:title" content="Search Shufukai Kendo Boston - Find Martial Arts Classes">
+  <meta property="og:description" content="Search for information about Kendo classes and martial arts training at Shufukai Kendo Boston.">
+  <meta property="og:image" content="https://shufukai.github.io/images/DSCF0176.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://shufukai.github.io/search.html">
+  <meta property="twitter:title" content="Search Shufukai Kendo Boston - Find Martial Arts Classes">
+  <meta property="twitter:description" content="Search for information about Kendo classes and martial arts training at Shufukai Kendo Boston.">
+  <meta property="twitter:image" content="https://shufukai.github.io/images/DSCF0176.jpg">
+
   <link href="css/normalize.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -24,38 +42,172 @@
     
     .search-input {
       width: 100%;
-      padding: 10px;
+      padding: 15px;
       margin: 10px 0;
       border: 1px solid #e1e1e1;
       border-radius: 4px;
       font-family: "Droid Sans", sans-serif;
+      font-size: 16px;
     }
     
     .search-button {
       background-color: var(--primary-color);
       color: white;
-      padding: 10px 20px;
+      padding: 15px 30px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-family: "Oswald", sans-serif;
       text-transform: uppercase;
       transition: background-color 0.3s;
+      font-size: 16px;
     }
     
     .search-button:hover {
       background-color: #004400;
     }
+
+    .search-results {
+      margin-top: 30px;
+    }
+
+    .result-item {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #e1e1e1;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+
+    .result-item h2 {
+      margin: 0 0 10px 0;
+      color: var(--primary-color);
+    }
+
+    .result-item p {
+      margin: 0;
+      color: #666;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .back-to-home {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-family: "Oswald", sans-serif;
+    }
+
+    .back-to-home:hover {
+      text-decoration: underline;
+    }
+
+    .search-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
   </style>
 </head>
 <body>
   <div class="search-container">
-    <h1>Search results</h1>
-    <form action="/search" class="search-form">
-      <label for="search">Search</label>
-      <input class="search-input" maxlength="256" name="query" placeholder="Search…" type="search" id="search" required>
+    <div class="search-header">
+      <h1>Search Shufukai Kendo Boston</h1>
+      <a href="index.html" class="back-to-home">← Back to Home</a>
+    </div>
+    
+    <form id="searchForm" class="search-form">
+      <label for="search">Search for martial arts classes, training information, or instructors</label>
+      <input class="search-input" maxlength="256" name="query" placeholder="Search for kendo classes, martial arts training, instructors..." type="search" id="search" required>
       <button type="submit" class="search-button">Search</button>
     </form>
+
+    <div id="searchResults" class="search-results"></div>
   </div>
+
+  <script>
+    // Search content data
+    const searchContent = [
+      {
+        title: "Kendo Training Classes",
+        content: "Join our Kendo martial arts classes every Sunday from 3:00 PM to 5:30 PM. Open to all levels, ages 7 and up. Located in Randolph, MA.",
+        link: "index.html#practiceinfo"
+      },
+      {
+        title: "About Shufukai Kendo Boston",
+        content: "Boston's premier Kendo dojo offering traditional Japanese martial arts training since 1997. Founded by Toshihiro Ogimura, we provide authentic Kendo instruction in the greater Boston area.",
+        link: "index.html#home"
+      },
+      {
+        title: "Expert Martial Arts Instructors",
+        content: "Train with highly qualified Kendo masters including Toshimi Yoshida (Kyoshi 7-Dan), Takayuki Sugimoto (Renshi 7-Dan), and other experienced instructors.",
+        link: "index.html#instructors"
+      },
+      {
+        title: "Beginner's Guide to Kendo",
+        content: "Learn about Kendo, the Way of the Sword, a traditional Japanese martial art that combines physical training with mental discipline. Perfect for beginners interested in martial arts.",
+        link: "index.html#home"
+      },
+      {
+        title: "Training Fees and Equipment",
+        content: "Information about martial arts training fees, required equipment, and enrollment periods. New students can join in September and March.",
+        link: "index.html#practiceinfo"
+      }
+    ];
+
+    // Search function
+    function performSearch(query) {
+      const results = searchContent.filter(item => {
+        const searchText = (item.title + ' ' + item.content).toLowerCase();
+        return query.toLowerCase().split(' ').every(word => searchText.includes(word));
+      });
+
+      const resultsContainer = document.getElementById('searchResults');
+      resultsContainer.innerHTML = '';
+
+      if (results.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="no-results">
+            <h2>No results found</h2>
+            <p>Try different keywords or check our <a href="index.html">homepage</a> for more information about our martial arts classes.</p>
+          </div>
+        `;
+        return;
+      }
+
+      results.forEach(result => {
+        const resultElement = document.createElement('div');
+        resultElement.className = 'result-item';
+        resultElement.innerHTML = `
+          <h2><a href="${result.link}">${result.title}</a></h2>
+          <p>${result.content}</p>
+        `;
+        resultsContainer.appendChild(resultElement);
+      });
+    }
+
+    // Form submit handler
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const query = document.getElementById('search').value.trim();
+      if (query) {
+        performSearch(query);
+      }
+    });
+
+    // Auto-search if query parameter exists
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialQuery = urlParams.get('query');
+    if (initialQuery) {
+      document.getElementById('search').value = initialQuery;
+      performSearch(initialQuery);
+    }
+  </script>
 </body>
 </html>

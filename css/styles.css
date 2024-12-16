@@ -158,6 +158,15 @@ a:hover {
   margin: 0;
 }
 
+.brand-text.subtitle {
+  font-size: 18px;
+  letter-spacing: 1px;
+  margin-top: -5px;
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .nav-menu {
   list-style: none;
   margin: 40px 0;
@@ -505,6 +514,10 @@ a:hover {
     margin: 0;
   }
 
+  .brand-text.subtitle {
+    font-size: 16px;
+  }
+
   .nav-menu {
     display: none;
     margin: 0;
@@ -643,6 +656,10 @@ a:hover {
 
   .brand-text {
     font-size: 20px;
+  }
+
+  .brand-text.subtitle {
+    font-size: 14px;
   }
 
   .hamburger {
